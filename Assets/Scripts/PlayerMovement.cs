@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public float speed = 5f;
-    public Transform ground;
+    public float speed;
 
     private CharacterController controller;
     private PlayerControls playerControls;
@@ -20,22 +19,21 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
+
+        // Controls WASD player movement
         Vector2 moveDirection = playerControls.Player.Movement.ReadValue<Vector2>();
         moveDirection *= speed;
         controller.Move(new Vector3(moveDirection.x, 0, moveDirection.y) * Time.deltaTime);
 
+        // Cast a point to world position for player mouse look
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(playerControls.Player.MousePosition.ReadValue<Vector2>());
         if (Physics.Raycast(ray, out hit)) {
-            if (hit.transform == ground) {
-                //Vector3 lookPos = hit.point;
-                transform.LookAt(new Vector3(hit.point.x, transform.position.y, hit.point.z));
+            if (hit.transform.CompareTag("Ground")) {
+                Vector3 lookPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+                transform.LookAt(lookPos);
             }
         }
-        //Vector3 mousePos = playerControls.Player.MousePosition.ReadValue<Vector2>();
-        //mousePos.z = 
-        //mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        //transform.forward = mousePos;
 
     }
 
