@@ -11,6 +11,8 @@ public class PlayerFire : MonoBehaviour {
     [SerializeField] private float firingInterval = 1;
     [SerializeField] private UIManager uiManager;
 
+    private float firingIntervalModifier = 1;
+
     public GameObject CircleBulletPrefab;
     public GameObject SquareBulletPrefab;
     public GameObject TriangleBulletPrefab;
@@ -25,6 +27,7 @@ public class PlayerFire : MonoBehaviour {
     private InputManager _inputManager;
 
     private Coroutine firingCoroutine;
+    private Coroutine rapidFireCoroutine;
 
     private void Awake()
     {
@@ -69,7 +72,7 @@ public class PlayerFire : MonoBehaviour {
             if(timer <= 0)
             {
                 Instantiate(currentBulletType, firePoint.position, playerMovement.CurrentRotation, transform);
-                timer = firingInterval;
+                timer = firingInterval * firingIntervalModifier;
             }
 
             timer -= Time.deltaTime;
@@ -79,16 +82,18 @@ public class PlayerFire : MonoBehaviour {
 
     public void EnableRapidFire(float powerupTime)
     {
-        StartCoroutine(RapidFireCoroutine(powerupTime));
+        if (rapidFireCoroutine != null)
+            StopCoroutine(rapidFireCoroutine);
+
+        rapidFireCoroutine = StartCoroutine(RapidFireCoroutine(powerupTime));
     }
     IEnumerator RapidFireCoroutine(float powerupTime)
     {
-        float oldFiringInterval = firingInterval;
-        firingInterval *= 0.5f;
+        firingIntervalModifier = 0.5f;
 
         yield return new WaitForSeconds(powerupTime);
 
-        firingInterval = oldFiringInterval;
+        firingIntervalModifier = 1;
     }
 
     private void OnTriggerEnter(Collider other) {

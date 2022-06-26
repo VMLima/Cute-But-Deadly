@@ -10305,7 +10305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f661966390f534a9b05ad1462b126e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
+  speed: 14
   playerModel: {fileID: 599263490}
 --- !u!54 &733313913
 Rigidbody:
@@ -16456,6 +16456,7 @@ GameObject:
   - component: {fileID: 1805549291}
   - component: {fileID: 1805549292}
   - component: {fileID: 1805549293}
+  - component: {fileID: 1805549294}
   m_Layer: 0
   m_Name: CM Main Camera
   m_TagString: Untagged
@@ -16533,6 +16534,29 @@ MonoBehaviour:
   AutoEnableInputs: 1
   XYAxis: {fileID: 1055941182353413806, guid: 1214ef1866c0e7a4bafefa2db169761f, type: 3}
   ZAxis: {fileID: 0}
+--- !u!114 &1805549294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805549290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b2d199b96b516448144ab30fb26aed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ApplyAfter: 2
+  m_ChannelMask: -1
+  m_Gain: 0.5
+  m_Use2DDistance: 0
+  m_UseCameraSpace: 1
+  m_ReactionSettings:
+    m_SecondaryNoise: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_Duration: 1
+    m_NoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &1871745107
 GameObject:
   m_ObjectHideFlags: 0
