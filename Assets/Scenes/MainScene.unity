@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.2850269, g: 0.3713935, b: 0.49601045, a: 1}
+  m_IndirectSpecularColor: {r: 0.28502667, g: 0.37139323, b: 0.49600998, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9939,6 +9939,8 @@ GameObject:
   - component: {fileID: 733313909}
   - component: {fileID: 733313910}
   - component: {fileID: 733313913}
+  - component: {fileID: 733313914}
+  - component: {fileID: 733313915}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -9974,6 +9976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4f661966390f534a9b05ad1462b126e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
   playerModel: {fileID: 599263490}
 --- !u!54 &733313913
 Rigidbody:
@@ -9991,6 +9994,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &733313914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733313904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a517c7bc7e43d134fb7dd8a18d23594a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firingInterval: 1
+  CircleBulletPrefab: {fileID: 2979632611677232255, guid: ea86505dd693ea24298460fa67a1bd2d, type: 3}
+  SquareBulletPrefab: {fileID: 5501999548458826907, guid: 4bb0dbcab64639540b8df7fd77d04e11, type: 3}
+  TriangleBulletPrefab: {fileID: 4781534022945033918, guid: ac91f2f9abeb2ce4ea9cd27b955ce784, type: 3}
+  spawner: {fileID: 733313909}
+  modelHolder: {fileID: 599263490}
+--- !u!114 &733313915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 733313904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d8d924ed804494a84eb1f12aaa48d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &796276238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15635,7 +15668,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.931361, y: 1}
+    m_SensorSize: {x: 2.0216389, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
