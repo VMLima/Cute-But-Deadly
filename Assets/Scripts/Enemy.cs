@@ -15,18 +15,15 @@ public class Enemy : MonoBehaviour
     {
         _stateController = GetComponent<StateController>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
-        _capsuleCollider.isTrigger = true;
+    }
+    private void OnDestroy()
+    {
+        Defeated?.Invoke();
     }
 
     // Use this for initialization
     void Start()
     {
         _stateController.InitialiseAI(initialState);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

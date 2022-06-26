@@ -4,37 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody), typeof(InputManager))]
 public class PlayerMovement : MonoBehaviour
 {
 
-    private float speed;
+    [SerializeField] private float speed = 10;
 
     [SerializeField] private Transform playerModel;
 
-    //private CharacterController controller;
-    private PlayerControls playerControls;
     private Rigidbody _rigidbody;
     private Transform _camera;
+    private InputManager _inputManager;
+    public Vector3 ForwardDirection { get => playerModel.transform.forward; }
+    public Quaternion CurrentRotation { get => playerModel.transform.rotation; }
 
     private void Awake()
     {
-        //controller = GetComponent<CharacterController>();
         _rigidbody = GetComponent<Rigidbody>();
-
+        _inputManager = GetComponent<InputManager>();
         _camera = Camera.main.transform;
-        playerControls = new PlayerControls();
-        playerControls.Player.Enable();
 
     }
 
     private void Update()
     {
-        //// Controls WASD player movement
-        //Vector2 moveDirection = playerControls.Player.Movement.ReadValue<Vector2>();
-        //moveDirection *= speed;
-        //controller.Move(new Vector3(moveDirection.x, 0, moveDirection.y) * Time.deltaTime);
-
         SetLookDirection();
     }
 
@@ -46,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     private void SetLookDirection()
     {
         RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(playerControls.Player.MousePosition.ReadValue<Vector2>());
+        Ray ray = Camera.main.ScreenPointToRay(_inputManager.MousePosition);
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 lookPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
@@ -56,14 +49,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void ExecuteMovement()
     {
-        Vector2 input = playerControls.Player.Movement.ReadValue<Vector2>();
+        Vector2 input = _inputManager.MovementVector;
 
         Vector3 cameraForward = _camera.forward.HorizontalVector3().normalized;
         Vector3 cameraRight = _camera.right.HorizontalVector3().normalized;
 
         Vector3 moveDir = (cameraForward * input.y) + (cameraRight * input.x);
         moveDir = moveDir.normalized;
-
         _rigidbody.velocity = moveDir * speed;
     }
 
