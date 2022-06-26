@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c500d856b7e3ba3408ae778fd447cc3a, type: 3}
   m_Name: InitialState
   m_EditorClassIdentifier: 
-  TickInterval: 2
-  customTickInterval: 1
+  TickInterval: 1
+  customTickInterval: 0.2
   OnEnterActions:
   - {fileID: 11400000, guid: f498a2e37a842be4e86e32cc99e4173b, type: 2}
   actions:

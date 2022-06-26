@@ -36,39 +36,25 @@ public class StateController : MonoBehaviour
         tickInterval = new WaitForSeconds(Time.fixedDeltaTime);
     }
 
+    private void OnEnable()
+    {
+        GameManager.GameFinished += DeactivateAI;
+    }
+    private void OnDisable()
+    {
+        GameManager.GameFinished -= DeactivateAI;
+    }
 
     public void InitialiseAI(AIState initialState)
     {
         TransitionToState(initialState);
-        UpdateParentEnemy();
-    }
-
-    /// <summary>
-    /// Find enemy component, subscribe to enemy events.
-    /// </summary>
-    public void UpdateParentEnemy()
-    {
-        DeactivateAI();
-
-        //unsubscribe from old enemy disabled event
-        if (Enemy != null)
-        {
-            Enemy.Defeated -= DeactivateAI;
-        }
 
         Enemy = GetComponent<Enemy>();
         AIMovement = GetComponent<AIMovement>();
-        Enemy.Defeated += DeactivateAI;
-                
+
         ActivateAI();
     }
 
-
-    public void StopFollowing()
-    {
-        //todo follow again after interval
-        
-    }
 
     public void ActivateAI()
     {
@@ -79,6 +65,7 @@ public class StateController : MonoBehaviour
     {
         if (aiCoroutine != null) { StopCoroutine(aiCoroutine); }
         aiActive = false;
+        AIMovement.StopMovement();
     }
 
 

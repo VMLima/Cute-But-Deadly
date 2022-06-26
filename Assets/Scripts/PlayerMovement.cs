@@ -54,8 +54,8 @@ public class PlayerMovement : MonoBehaviour
         Vector3 cameraForward = _camera.forward.HorizontalVector3().normalized;
         Vector3 cameraRight = _camera.right.HorizontalVector3().normalized;
 
-        Vector3 moveDir = (cameraForward * input.y) + (cameraRight * input.x);
-        moveDir = moveDir.normalized;
+        Vector3 moveDir = (cameraForward * input.y * 1.5f) + (cameraRight * input.x);
+        //moveDir = moveDir.normalized;
         _rigidbody.velocity = moveDir * speed;
     }
 

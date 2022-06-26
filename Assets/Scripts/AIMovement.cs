@@ -17,4 +17,8 @@ public class AIMovement : MonoBehaviour
     {
         _agent.SetDestination(destination);
     }
+    public void StopMovement()
+    {
+        _agent.isStopped = true;
+    }
 }

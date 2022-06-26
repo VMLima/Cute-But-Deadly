@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AmmoType
+{
+    Circle,
+    Square,
+    Triangle
+}
 public class BulletController : MonoBehaviour {
 
     [SerializeField] private float speed = 30;
@@ -28,7 +34,7 @@ public class BulletController : MonoBehaviour {
         // Destroy the enemy if it matches the bullet tag
         if (other.CompareTag(tag))        
             Destroy(other.gameObject);
-        
-        Destroy(gameObject);
+        else        
+            Destroy(gameObject);
     }
 }
