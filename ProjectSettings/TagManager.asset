@@ -8,6 +8,9 @@ TagManager:
   - Circle
   - Square
   - Triangle
+  - CircleZone
+  - SquareZone
+  - TriangleZone
   layers:
   - Default
   - TransparentFX
