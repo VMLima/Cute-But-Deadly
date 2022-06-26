@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI enemyCountText;
-    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image healthBar;
     [SerializeField] private Image ammoTypeImage;
 
     [Space]
@@ -40,9 +40,9 @@ public class UIManager : MonoBehaviour
     {
         enemyCountText.text = count.ToString();
     }
-    public void SetPlayerHealth(int health)
+    public void SetPlayerHealth(float healthPercent)
     {
-        healthSlider.value = health;
+        healthBar.fillAmount = healthPercent;
     }
     public void SetAmmoType(AmmoType ammoType)
     {

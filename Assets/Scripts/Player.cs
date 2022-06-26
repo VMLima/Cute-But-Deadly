@@ -31,7 +31,7 @@ public class Player : MonoBehaviour {
 
         canReceiveDamage = false;
         health -= 1;
-        uiManager.SetPlayerHealth(health);
+        uiManager.SetPlayerHealth((float)health/maxHealth);
         if (health <= 0)
         {
             //GAME OVER
@@ -47,7 +47,7 @@ public class Player : MonoBehaviour {
             case PowerUpType.Health:
                 if (health < maxHealth)
                     health++;
-                uiManager.SetPlayerHealth(health);
+                uiManager.SetPlayerHealth((float)health / maxHealth);
                 break;
             case PowerUpType.RapidFire:
                 playerFire.EnableRapidFire(duration);
