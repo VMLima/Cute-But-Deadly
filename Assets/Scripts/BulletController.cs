@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
 
-    private float age;
-    [SerializeField] private float speed = 10;
+    [SerializeField] private float speed = 30;
 
     private Rigidbody rig;
 
@@ -23,18 +22,13 @@ public class BulletController : MonoBehaviour {
 
     }
 
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log("Hit" + other.tag);
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log($"Hit tag: {other.tag}, name: {other.name}");
         // Destroy the enemy if it matches the bullet tag
-        if (other.CompareTag(tag)) {
+        if (other.CompareTag(tag))        
             Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
+        
+        Destroy(gameObject);
     }
-
-    public void SetStats(float _age, float _speed) {
-        age = _age;
-        speed = _speed;
-    }
-
 }
