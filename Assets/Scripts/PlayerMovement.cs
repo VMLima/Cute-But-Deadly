@@ -8,18 +8,18 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
 
-    public float speed;
+    private float speed;
 
     [SerializeField] private Transform playerModel;
 
-    private CharacterController controller;
+    //private CharacterController controller;
     private PlayerControls playerControls;
     private Rigidbody _rigidbody;
     private Transform _camera;
 
     private void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        //controller = GetComponent<CharacterController>();
         _rigidbody = GetComponent<Rigidbody>();
 
         _camera = Camera.main.transform;
@@ -65,5 +65,10 @@ public class PlayerMovement : MonoBehaviour
         moveDir = moveDir.normalized;
 
         _rigidbody.velocity = moveDir * speed;
+    }
+
+    public void SetPlayerSpeed(float _speed) 
+    {
+        speed = _speed;
     }
 }
