@@ -8,6 +8,9 @@ TagManager:
   - Circle
   - Square
   - Triangle
+  - CircleZone
+  - SquareZone
+  - TriangleZone
   layers:
   - Default
   - TransparentFX
@@ -15,8 +18,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - AmmoZone
+  - Player
   - 
   - 
   - 

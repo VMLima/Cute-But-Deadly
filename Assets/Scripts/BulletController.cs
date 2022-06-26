@@ -23,6 +23,7 @@ public class BulletController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other) {
+        Debug.Log("Hit" + other.tag);
         // Destroy the enemy if it matches the bullet tag
         if (other.CompareTag(tag)) {
             Destroy(other.gameObject);
