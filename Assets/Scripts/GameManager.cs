@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
         enemiesRemaining = enemiesInWave;
         uiManager.SetEnemyCount(enemiesRemaining);
         enemySpawnManager.StartSpawningEnemies(spawnInterval, enemiesInWave, this);
+
+        Application.targetFrameRate = 60;
     }
 
     void Start()

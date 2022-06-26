@@ -18,6 +18,8 @@ public class Player : MonoBehaviour {
 
     private bool canReceiveDamage = true;
 
+    private Coroutine shieldCoroutine;
+
     private void Awake() {
         playerMovement = GetComponent<PlayerMovement>();
         playerFire = GetComponent<PlayerFire>();
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour {
 
         canReceiveDamage = false;
         health -= 1;
-        uiManager.SetPlayerHealth(health);
+        uiManager.SetPlayerHealth((float)health/maxHealth);
         if (health <= 0)
         {
             //GAME OVER
@@ -47,13 +49,15 @@ public class Player : MonoBehaviour {
             case PowerUpType.Health:
                 if (health < maxHealth)
                     health++;
-                uiManager.SetPlayerHealth(health);
+                uiManager.SetPlayerHealth((float)health / maxHealth);
                 break;
             case PowerUpType.RapidFire:
                 playerFire.EnableRapidFire(duration);
                 break;
             case PowerUpType.Shield:
-                StartCoroutine(ActivateShield(duration));
+                if (shieldCoroutine != null)
+                    StopCoroutine(shieldCoroutine);
+                shieldCoroutine = StartCoroutine(ActivateShield(duration));
                 break;
             default:
                 break;
@@ -83,10 +87,11 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         GameObject obj = collision.gameObject;
+        print(obj.name);
         if ((obj.CompareTag("Circle") || obj.CompareTag("Square") || obj.CompareTag("Triangle"))
               && obj.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
             ChangeHealthState();
-            Destroy(obj);
+            Destroy(obj, 0.1f);
         }
     }
 
