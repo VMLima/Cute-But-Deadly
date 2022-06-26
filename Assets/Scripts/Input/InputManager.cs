@@ -21,4 +21,18 @@ public class InputManager : MonoBehaviour
     public Vector2 MovementVector { get => PlayerControls.Player.Movement.ReadValue<Vector2>(); }
     public Vector2 MousePosition { get => PlayerControls.Player.MousePosition.ReadValue<Vector2>(); }
 
+    private void OnEnable()
+    {
+        GameManager.GameFinished += DisableControls;
+    }
+    private void OnDisable()
+    {
+        GameManager.GameFinished -= DisableControls;
+    }
+
+    public void DisableControls()
+    {
+        playerControls.Disable();
+    }
+
 }
