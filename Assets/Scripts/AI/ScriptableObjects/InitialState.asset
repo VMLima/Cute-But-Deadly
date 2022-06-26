@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c500d856b7e3ba3408ae778fd447cc3a, type: 3}
   m_Name: InitialState
   m_EditorClassIdentifier: 
-  TickInterval: 0
-  customTickInterval: 0.1
-  OnEnterActions: []
-  actions: []
+  TickInterval: 2
+  customTickInterval: 1
+  OnEnterActions:
+  - {fileID: 11400000, guid: f498a2e37a842be4e86e32cc99e4173b, type: 2}
+  actions:
+  - {fileID: 11400000, guid: 678b37559eb9fea4c9a15bdac4b4f7e5, type: 2}
   transitions: []
   OnExitActions: []

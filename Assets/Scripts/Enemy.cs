@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         _stateController = GetComponent<StateController>();
+        _capsuleCollider = GetComponent<CapsuleCollider>();
         _capsuleCollider.isTrigger = true;
     }
 

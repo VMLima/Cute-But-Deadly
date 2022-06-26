@@ -59,10 +59,7 @@ public class StateController : MonoBehaviour
         Enemy = GetComponent<Enemy>();
         AIMovement = GetComponent<AIMovement>();
         Enemy.Defeated += DeactivateAI;
-
-        transform.localPosition = Vector3.zero;
-        transform.localEulerAngles = Vector3.zero;
-        
+                
         ActivateAI();
     }
 

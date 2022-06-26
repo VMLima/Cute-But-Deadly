@@ -15,6 +15,6 @@ public class AIMovement : MonoBehaviour
     
     public void MoveTo(Vector3 destination)
     {
-        _agent.Move(destination);
+        _agent.SetDestination(destination);
     }
 }
