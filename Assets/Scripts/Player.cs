@@ -87,7 +87,6 @@ public class Player : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision) {
         GameObject obj = collision.gameObject;
-        print(obj.name);
         if ((obj.CompareTag("Circle") || obj.CompareTag("Square") || obj.CompareTag("Triangle"))
               && obj.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
             ChangeHealthState();

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
-[RequireComponent(typeof(InputManager))]
+[RequireComponent(typeof(InputManager), typeof(AudioSource))]
 public class PlayerFire : MonoBehaviour {
 
     [SerializeField] private float firingInterval = 1;
@@ -29,10 +30,15 @@ public class PlayerFire : MonoBehaviour {
     private Coroutine firingCoroutine;
     private Coroutine rapidFireCoroutine;
 
+    private AudioSource _audioSource;
+    [SerializeField] private List<AudioClip> fireAudioClips = new();
+    
+
     private void Awake()
     {
         _inputManager = GetComponent<InputManager>();
         playerMovement = GetComponent<PlayerMovement>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start() {
@@ -73,6 +79,7 @@ public class PlayerFire : MonoBehaviour {
             {
                 Instantiate(currentBulletType, firePoint.position, playerMovement.CurrentRotation, transform);
                 timer = firingInterval * firingIntervalModifier;
+                _audioSource.PlayOneShot(fireAudioClips[Random.Range(0,fireAudioClips.Count)]);
             }
 
             timer -= Time.deltaTime;
@@ -90,9 +97,11 @@ public class PlayerFire : MonoBehaviour {
     IEnumerator RapidFireCoroutine(float powerupTime)
     {
         firingIntervalModifier = 0.5f;
+        uiManager.EnableRapidFireIcons(true);
 
         yield return new WaitForSeconds(powerupTime);
 
+        uiManager.EnableRapidFireIcons(false);
         firingIntervalModifier = 1;
     }
 

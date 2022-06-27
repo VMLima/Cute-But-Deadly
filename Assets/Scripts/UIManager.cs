@@ -9,23 +9,37 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI enemyCountText;
     [SerializeField] private Image healthBar;
-    [SerializeField] private Image ammoTypeImage;
 
-    [Space]
-    [SerializeField] private Sprite circleSprite;
-    [SerializeField] private Sprite squareSprite;
-    [SerializeField] private Sprite triangleSprite;
+    [SerializeField] private Image circleAmmoImage;
+    [SerializeField] private Image squareAmmoImage;
+    [SerializeField] private Image triangleAmmoImage;
+
+    [SerializeField] private List<GameObject> rapidFireIcons = new List<GameObject>();
+
+    
+    private Animator circleAnimator;
+    private Animator squareAnimator;
+    private Animator triangleAnimator;
+
+    private void Awake()
+    {
+        circleAnimator = circleAmmoImage.GetComponent<Animator>();
+        squareAnimator = squareAmmoImage.GetComponent<Animator>();
+        triangleAnimator = triangleAmmoImage.GetComponent<Animator>();
+
+        EnableRapidFireIcons(false);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void SetWaveTimer(float timer)
@@ -44,18 +58,31 @@ public class UIManager : MonoBehaviour
     {
         healthBar.fillAmount = healthPercent;
     }
+    public void EnableRapidFireIcons(bool enabled)
+    {
+        foreach (var icon in rapidFireIcons)
+        {
+            icon.SetActive(enabled);
+        }
+    }
     public void SetAmmoType(AmmoType ammoType)
     {
         switch (ammoType)
         {
             case AmmoType.Circle:
-                ammoTypeImage.sprite = circleSprite;
+                circleAnimator.SetInteger("Animate",1);
+                squareAnimator.SetInteger("Animate", 0);
+                triangleAnimator.SetInteger("Animate", 0);
                 break;
             case AmmoType.Square:
-                ammoTypeImage.sprite = squareSprite;
+                circleAnimator.SetInteger("Animate", 0);
+                squareAnimator.SetInteger("Animate", 1);
+                triangleAnimator.SetInteger("Animate", 0);
                 break;
             case AmmoType.Triangle:
-                ammoTypeImage.sprite = triangleSprite;
+                circleAnimator.SetInteger("Animate", 0);
+                squareAnimator.SetInteger("Animate", 0);
+                triangleAnimator.SetInteger("Animate", 1);
                 break;
             default:
                 break;

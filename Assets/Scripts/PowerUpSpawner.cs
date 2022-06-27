@@ -6,6 +6,7 @@ using UnityEngine;
 public class PowerUpSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> powerupPrefabs = new List<GameObject>();
+    [SerializeField] private LayerMask obstaclesLayer;
 
     private List<GameObject> powerups = new List<GameObject>();   
     private BoxCollider _collider;
@@ -61,6 +62,15 @@ public class PowerUpSpawner : MonoBehaviour
         foreach (var powerup in powerups)
         {
             Vector3 spawnPos = new Vector3(Random.Range(xMinMax.x, xMinMax.y), 0, Random.Range(zMinMax.x, zMinMax.y));
+
+            Ray ray = new Ray(spawnPos + new Vector3(0,10,0), Vector3.down);
+            RaycastHit hit;
+            while(Physics.Raycast(ray, 100, obstaclesLayer))
+            {
+                spawnPos = new Vector3(Random.Range(xMinMax.x, xMinMax.y), 0, Random.Range(zMinMax.x, zMinMax.y));
+                ray = new Ray(spawnPos + new Vector3(0, 10, 0), Vector3.down);
+            }
+
             powerup.transform.position = spawnPos;
             powerup.SetActive(true);
         }
