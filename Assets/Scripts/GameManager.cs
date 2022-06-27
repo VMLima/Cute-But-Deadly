@@ -35,12 +35,8 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        uiManager.FadeIn();
-        uiManager.FadeCompleted += StartGame;
-    }
-    private void StartGame()
-    {
-        uiManager.FadeCompleted -= StartGame;
+        //uiManager.FadeIn();
+        //uiManager.FadeCompleted += StartGame;
 
         enemySpawnManager.SetSpawningParameters(spawnInterval, enemiesInWave);
 
@@ -48,6 +44,11 @@ public class GameManager : MonoBehaviour
 
         GameStarted?.Invoke();
     }
+    //private void StartGame()
+    //{
+    //    //uiManager.FadeCompleted -= StartGame;
+
+    //}
     private void FinishGame()
     {
         if (waveCoroutine != null)

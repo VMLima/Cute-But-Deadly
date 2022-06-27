@@ -20,5 +20,6 @@ public class AIMovement : MonoBehaviour
     public void StopMovement()
     {
         _agent.isStopped = true;
+        _agent.velocity = Vector3.zero;
     }
 }

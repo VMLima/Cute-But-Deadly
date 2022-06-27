@@ -19,11 +19,14 @@ public class Player : MonoBehaviour {
     private bool canReceiveDamage = true;
 
     private Coroutine shieldCoroutine;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip damagedAudio;
 
     private void Awake() {
         playerMovement = GetComponent<PlayerMovement>();
         playerFire = GetComponent<PlayerFire>();
         health = maxHealth;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void ChangeHealthState()
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour {
         {
             case PowerUpType.Health:
                 if (health < maxHealth)
-                    health++;
+                    health = maxHealth;
                 uiManager.SetPlayerHealth((float)health / maxHealth);
                 break;
             case PowerUpType.RapidFire:
@@ -86,11 +89,16 @@ public class Player : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
+
+        if (!canReceiveDamage)
+            return;
+
         GameObject obj = collision.gameObject;
         if ((obj.CompareTag("Circle") || obj.CompareTag("Square") || obj.CompareTag("Triangle"))
               && obj.gameObject.layer == LayerMask.NameToLayer("Enemy")) {
             ChangeHealthState();
-            Destroy(obj, 0.1f);
+            obj.GetComponent<Enemy>().Death();
+            _audioSource.PlayOneShot(damagedAudio);
         }
     }
 
