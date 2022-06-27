@@ -5,6 +5,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioSource backgroundMusicAS;
+    [SerializeField] private AudioSource sfxAS;
+    [SerializeField] private AudioClip defeatSound;
 
     private void OnEnable()
     {
@@ -27,5 +29,9 @@ public class AudioManager : MonoBehaviour
     public void SetVolume(float percent)
     {
         backgroundMusicAS.volume = percent;
+    }
+    public void PlayDefeatSound()
+    {
+        sfxAS.PlayOneShot(defeatSound);
     }
 }

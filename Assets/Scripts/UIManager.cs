@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private CanvasGroup victoryScreen;
     [SerializeField] private CanvasGroup defeatScreen;
-    [SerializeField] private List<GameObject>  endOfGameButtons = new List<GameObject>();
+    [SerializeField] private List<Button>  endOfGameButtons = new List<Button>();
     
     private Animator circleAnimator;
     private Animator squareAnimator;
@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
 
         foreach (var button in endOfGameButtons)
         {
-            button.SetActive(false);
+            button.gameObject.SetActive(false);
         }
     }
 
@@ -57,17 +57,20 @@ public class UIManager : MonoBehaviour
 
         foreach (var button in endOfGameButtons)
         {
-            button.SetActive(true);
+            button.gameObject.SetActive(true);
         }
+        endOfGameButtons[0].Select();
     }
     public void ShowDefeatScreen()
     {
+        audioManager.PlayDefeatSound();
         defeatScreen.EnableCanvasGroup(1);
 
         foreach (var button in endOfGameButtons)
         {
-            button.SetActive(true);
+            button.gameObject.SetActive(true);
         }
+        endOfGameButtons[0].Select();
     }
 
     public void SetWaveTimer(float timer)

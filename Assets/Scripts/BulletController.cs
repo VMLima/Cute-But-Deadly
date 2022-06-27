@@ -30,10 +30,9 @@ public class BulletController : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Hit tag: {other.tag}, name: {other.name}");
         // Destroy the enemy if it matches the bullet tag
         if (other.CompareTag(tag))        
-            Destroy(other.gameObject);
+            other.GetComponent<Enemy>().Death();
         else        
             Destroy(gameObject);
     }

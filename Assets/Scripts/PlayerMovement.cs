@@ -9,8 +9,11 @@ public class PlayerMovement : MonoBehaviour
 {
 
     [SerializeField] private float speed = 10;
+    [SerializeField] private float gamepadRotationSmoothing = 1000f;
 
     [SerializeField] private Transform playerModel;
+
+    [SerializeField] private Transform reticle;
 
     private Rigidbody _rigidbody;
     private Transform _camera;
@@ -23,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _inputManager = GetComponent<InputManager>();
         _camera = Camera.main.transform;
-
     }
 
     private void Update()
@@ -38,13 +40,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetLookDirection()
     {
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(_inputManager.MousePosition);
-        if (Physics.Raycast(ray, out hit))
+        //RaycastHit hit;
+        //Ray ray = Camera.main.ScreenPointToRay(_inputManager.MousePosition);
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    Vector3 lookPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+        //    playerModel.transform.LookAt(lookPos);
+        //}
+
+        if (_inputManager.GamepadEnabled)
         {
-            Vector3 lookPos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
-            playerModel.transform.LookAt(lookPos);
+            Vector2 input = _inputManager.LookVector;
+            Vector3 cameraForward = _camera.forward.HorizontalVector3().normalized;
+            Vector3 cameraRight = _camera.right.HorizontalVector3().normalized;
+
+            Vector3 lookDir = cameraForward * input.y + cameraRight * input.x;
+           
+            if(lookDir.sqrMagnitude > 0)
+            {
+                Quaternion newRot = Quaternion.LookRotation(lookDir, Vector3.up);
+                playerModel.rotation = Quaternion.RotateTowards(playerModel.rotation, newRot, gamepadRotationSmoothing * Time.deltaTime);
+            }
         }
+        else
+        {
+            Vector3 lookPos = new Vector3(reticle.position.x, transform.position.y, reticle.position.z);
+            playerModel.transform.LookAt(lookPos);
+        }        
     }
 
     private void ExecuteMovement()

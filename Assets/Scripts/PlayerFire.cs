@@ -79,7 +79,7 @@ public class PlayerFire : MonoBehaviour {
             {
                 Instantiate(currentBulletType, firePoint.position, playerMovement.CurrentRotation, transform);
                 timer = firingInterval * firingIntervalModifier;
-                _audioSource.PlayOneShot(fireAudioClips[Random.Range(0,fireAudioClips.Count)]);
+                _audioSource.PlayOneShot(fireAudioClips[Random.Range(0,fireAudioClips.Count)], 0.3f);
             }
 
             timer -= Time.deltaTime;
