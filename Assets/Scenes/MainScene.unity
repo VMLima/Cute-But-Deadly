@@ -11783,7 +11783,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -6955702667922075386, guid: befe13ac1def0774493e8038fe926e4b, type: 2}
   m_audioClip: {fileID: 8300000, guid: aacab13d9f3c6a5418b1ba8375d701d3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -12224,6 +12224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeTime: 4
   blackScreen: {fileID: 1024825243}
+  audioManager: {fileID: 1186114111}
   timerText: {fileID: 2086127407}
   enemyCountText: {fileID: 926821508}
   healthBar: {fileID: 1144487152}
@@ -17337,6 +17338,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1186114110}
+  - component: {fileID: 1186114111}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -17360,6 +17362,19 @@ Transform:
   m_Father: {fileID: 1436402364}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1186114111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186114109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c948b4e8368fe9f4e97f521cf3b7be72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundMusicAS: {fileID: 858075924}
 --- !u!1 &1238635729
 GameObject:
   m_ObjectHideFlags: 0
