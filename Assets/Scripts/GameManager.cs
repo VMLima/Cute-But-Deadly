@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public float spawnInterval = 1;
 
     public static event Action GameFinished;
+    public static event Action GameStarted;
 
     private Coroutine waveCoroutine;
 
@@ -24,23 +26,58 @@ public class GameManager : MonoBehaviour
     {
         enemiesRemaining = enemiesInWave;
         uiManager.SetEnemyCount(enemiesRemaining);
-        enemySpawnManager.StartSpawningEnemies(spawnInterval, enemiesInWave, this);
 
+#if UNITY_WEBGL
         Application.targetFrameRate = 60;
+#endif
+        Cursor.visible = false;
     }
 
     void Start()
     {
+        uiManager.FadeIn();
+        uiManager.FadeCompleted += StartGame;
+    }
+    private void StartGame()
+    {
+        uiManager.FadeCompleted -= StartGame;
+
+        enemySpawnManager.SetSpawningParameters(spawnInterval, enemiesInWave);
+
         waveCoroutine = StartCoroutine(WaveCoroutine());
+
+        GameStarted?.Invoke();
+    }
+    private void FinishGame()
+    {
+        if (waveCoroutine != null)
+            StopCoroutine(waveCoroutine);
+
+        GameFinished?.Invoke();
+        Cursor.visible = true;
+    }
+    public void RestartGame()
+    {
+        uiManager.FadeOut();
+        uiManager.FadeCompleted += ReloadScene;
+    }
+    private void ReloadScene()
+    {
+        uiManager.FadeCompleted -= ReloadScene;
+        SceneManager.LoadScene(0);
+    }
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     IEnumerator WaveCoroutine()
     {
         float timer = waveTimer;
         while (currentWave <= maxWaves)
-        {            
+        {
             uiManager.SetWaveTimer(timer);
-            if(timer <= 0)
+            if (timer <= 0)
             {
                 LoadNextWave();
                 timer = waveTimer;
@@ -53,7 +90,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerDead()
     {
-        //TODO show player died screen
+        uiManager.ShowDefeatScreen();
         FinishGame();
     }
 
@@ -64,18 +101,11 @@ public class GameManager : MonoBehaviour
         if (currentWave == maxWaves && enemiesRemaining <= 0)
         {
             //GAME OVER
-            //TODO Show game completed screen
+            uiManager.ShowVictoryScreen();
             FinishGame();
         }
     }
-
-    private void FinishGame()
-    {
-        if (waveCoroutine != null)
-            StopCoroutine(waveCoroutine);
-
-        GameFinished?.Invoke();
-    }
+    
 
     private void LoadNextWave()
     {
@@ -89,7 +119,9 @@ public class GameManager : MonoBehaviour
         spawnInterval = Mathf.Clamp(spawnInterval * 0.85f, 0.3f, 1);
 
         uiManager.SetEnemyCount(enemiesRemaining);
-        enemySpawnManager.StartSpawningEnemies(spawnInterval, enemiesInWave, this);
+
+        enemySpawnManager.SetSpawningParameters(spawnInterval, enemiesInWave);
+        enemySpawnManager.StartSpawningEnemies();
 
     }
 }

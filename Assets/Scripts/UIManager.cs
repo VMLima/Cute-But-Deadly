@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private float fadeTime = 4;
+    [SerializeField] private CanvasGroup blackScreen;
+
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI enemyCountText;
     [SerializeField] private Image healthBar;
@@ -16,10 +20,16 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private List<GameObject> rapidFireIcons = new List<GameObject>();
 
+    [SerializeField] private CanvasGroup victoryScreen;
+    [SerializeField] private CanvasGroup defeatScreen;
+    [SerializeField] private List<GameObject>  endOfGameButtons = new List<GameObject>();
     
     private Animator circleAnimator;
     private Animator squareAnimator;
     private Animator triangleAnimator;
+
+    private Coroutine fadeCoroutine;
+    public event Action FadeCompleted;
 
     private void Awake()
     {
@@ -28,18 +38,34 @@ public class UIManager : MonoBehaviour
         triangleAnimator = triangleAmmoImage.GetComponent<Animator>();
 
         EnableRapidFireIcons(false);
+
+        victoryScreen.DisableCanvasGroup(0);
+        defeatScreen.DisableCanvasGroup(0);
+        blackScreen.alpha = 1;
+
+        foreach (var button in endOfGameButtons)
+        {
+            button.SetActive(false);
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void ShowVictoryScreen()
     {
+        victoryScreen.EnableCanvasGroup(1);
 
+        foreach (var button in endOfGameButtons)
+        {
+            button.SetActive(true);
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void ShowDefeatScreen()
     {
+        defeatScreen.EnableCanvasGroup(1);
 
+        foreach (var button in endOfGameButtons)
+        {
+            button.SetActive(true);
+        }
     }
 
     public void SetWaveTimer(float timer)
@@ -87,5 +113,46 @@ public class UIManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void FadeOut()
+    {
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        fadeCoroutine = StartCoroutine(FadeOutCoroutine());
+    }
+    public void FadeIn()
+    {
+        if (fadeCoroutine != null)
+            StopCoroutine(fadeCoroutine);
+
+        fadeCoroutine = StartCoroutine(FadeInCoroutine());
+    }
+    IEnumerator FadeOutCoroutine()
+    {
+        float timer = fadeTime * blackScreen.alpha;
+        
+        while (timer < fadeTime)
+        {
+            blackScreen.alpha = timer / fadeTime;
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        FadeCompleted?.Invoke();
+    }
+    IEnumerator FadeInCoroutine()
+    {
+        float timer = fadeTime * blackScreen.alpha;
+
+        while (timer > 0)
+        {
+            blackScreen.alpha = timer / fadeTime;
+
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+        FadeCompleted?.Invoke();
     }
 }

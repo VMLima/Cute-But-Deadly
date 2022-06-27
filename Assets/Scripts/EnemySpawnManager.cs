@@ -8,8 +8,11 @@ public class EnemySpawnManager : MonoBehaviour
     [SerializeField] private List<GameObject> enemyPrefabs = new List<GameObject>();
     
     private Coroutine spawningCoroutine;
-    private WaitForSeconds spawnInterval;
-    private int enemiesToSpawn;
+    private WaitForSeconds _spawnInterval;
+    private int _enemiesToSpawn;
+
+    [SerializeField] private GameManager gameManager;
+
 
     private void Start()
     {
@@ -18,21 +21,26 @@ public class EnemySpawnManager : MonoBehaviour
     private void OnEnable()
     {
         GameManager.GameFinished += StopSpawningEnemies;
+        GameManager.GameStarted += StartSpawningEnemies;
     }
     private void OnDisable()
     {
         GameManager.GameFinished -= StopSpawningEnemies;
+        GameManager.GameStarted -= StartSpawningEnemies;
     }
 
-    public void StartSpawningEnemies(float spawnInterval, int enemiesToSpawn, GameManager gameManager)
+    public void SetSpawningParameters(float spawnInterval, int enemiesToSpawn)
+    {
+        _spawnInterval = new WaitForSeconds(spawnInterval);
+        _enemiesToSpawn = enemiesToSpawn;
+    }
+
+    public void StartSpawningEnemies()
     {
         if(spawningCoroutine != null)
             StopCoroutine(spawningCoroutine);
-
-        this.enemiesToSpawn = enemiesToSpawn;
-
-        this.spawnInterval = new WaitForSeconds(spawnInterval);
-        spawningCoroutine = StartCoroutine(SpawningCoroutine(gameManager));
+                
+        spawningCoroutine = StartCoroutine(SpawningCoroutine());
     }
     public void StopSpawningEnemies()
     {
@@ -40,10 +48,10 @@ public class EnemySpawnManager : MonoBehaviour
             StopCoroutine(spawningCoroutine);
     }
 
-    IEnumerator SpawningCoroutine(GameManager gameManager)
+    IEnumerator SpawningCoroutine()
     {
         int spawnedEnemies = 0;
-        while (spawnedEnemies < enemiesToSpawn)
+        while (spawnedEnemies < _enemiesToSpawn)
         {
             Vector3 spawnPos = spawnLocations[Random.Range(0, spawnLocations.Count)].position;
             GameObject enemy  = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Count)], spawnPos, Quaternion.identity, transform);
@@ -51,7 +59,7 @@ public class EnemySpawnManager : MonoBehaviour
             enemy.GetComponent<Enemy>().Defeated += gameManager.OnEnemyDeath;
 
             spawnedEnemies++;
-            yield return spawnInterval;
+            yield return _spawnInterval;
         }
     }
 }
